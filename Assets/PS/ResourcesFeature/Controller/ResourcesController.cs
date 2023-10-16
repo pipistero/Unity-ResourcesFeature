@@ -100,7 +100,7 @@ namespace PS.ResourcesFeature.Controller
 
         #endregion
 
-        #region Add methods
+        #region AddAmount methods
 
         /// <summary>
         /// Adds amount to integer resource.
@@ -134,7 +134,7 @@ namespace PS.ResourcesFeature.Controller
 
         #endregion
 
-        #region Spend methods
+        #region SpendAmount methods
 
         /// <summary>
         /// Spends amount from integer resource.
@@ -196,6 +196,34 @@ namespace PS.ResourcesFeature.Controller
             ValidateBigIntegerResource(resourceType);
 
             return _resourcesBigInteger[resourceType].HasAmount(amount);
+        }
+
+        #endregion
+
+        #region GetAmount methods
+
+        /// <summary>
+        /// Gets amount of integer resource.
+        /// </summary>
+        /// <param name="resourceType">Type of resource from your enum.</param>
+        /// <returns>Integer amount of resource.</returns>
+        public int GetIntegerAmount(T resourceType)
+        {
+            ValidateIntegerResource(resourceType);
+
+            return _resourcesInteger[resourceType].GetAmount();
+        }
+        
+        /// <summary>
+        /// Gets amount of big integer resource.
+        /// </summary>
+        /// <param name="resourceType">Type of resource from your enum.</param>
+        /// <returns>BigInteger amount of resource.</returns>
+        public BigInteger GetBigIntegerAmount(T resourceType)
+        {
+            ValidateBigIntegerResource(resourceType);
+
+            return _resourcesBigInteger[resourceType].GetAmount();
         }
 
         #endregion
