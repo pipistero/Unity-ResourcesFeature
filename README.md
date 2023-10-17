@@ -70,34 +70,34 @@ private void OnDisable()
 }
 
 //Integer resource example
-private void OnResourceIntegerUpdated(ResourceType resourceType, int oldAmount, int newAmount)
+private void OnResourceIntegerUpdated(ResourceType resourceType, int oldAmount, int newAmount, object sender)
 {
-    Debug.Log($"Integer resource {resourceType} changed; Old amount = {oldAmount}, new amount = {newAmount}");
+    Debug.Log($"Resource {resourceType} changed; Old amount = {oldAmount}, new amount = {newAmount}; Sender - {sender}");
 }
 
 //BigInteger resource example
-private void OnResourceBigIntegerUpdated(ResourceType resourceType, BigInteger oldAmount, BigInteger newAmount)
+private void OnResourceBigIntegerUpdated(ResourceType resourceType, BigInteger oldAmount, BigInteger newAmount, object sender)
 {
-    Debug.Log($"BigInteger resource {resourceType} changed; Old amount = {oldAmount}, new amount = {newAmount}");
+    Debug.Log($"Resource {resourceType} changed; Old amount = {oldAmount}, new amount = {newAmount}; Sender - {sender}");
 }
 ```
 
 6. Add resource
 ```C#
 //Add amount to integer resource
-_resourcesController.AddAmount(ResourceType.Stone, 100);
+_resourcesController.AddAmount(ResourceType.Stone, 100, this);
 
 //Add amount to integer resource
-_resourcesController.AddAmount(ResourceType.Stone, new BigInteger(100));
+_resourcesController.AddAmount(ResourceType.Stone, new BigInteger(100), this);
 ```
 
 7. Spend resource
 ```C#
 //Spend integer resource
-_resourcesController.SpendAmount(ResourceType.Stone, 100);
+_resourcesController.SpendAmount(ResourceType.Stone, 100, this);
 
 //Spend integer resource
-_resourcesController.SpendAmount(ResourceType.Stone, new BigInteger(100));
+_resourcesController.SpendAmount(ResourceType.Stone, new BigInteger(100), this);
 ```
 
 8. Get resource amount
