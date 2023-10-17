@@ -16,12 +16,12 @@ namespace PS.ResourcesFeature.Controller
         /// <summary>
         /// Event invokes when the amount of any integer resource updated.
         /// </summary>
-        public event Action<T, int, int> ResourceIntegerUpdated;
+        public event Action<T, int, int, object> ResourceIntegerUpdated;
         
         /// <summary>
         /// Event invokes when the amount of any big integer resource updated.
         /// </summary>
-        public event Action<T, BigInteger, BigInteger> ResourceBigIntegerUpdated;
+        public event Action<T, BigInteger, BigInteger, object> ResourceBigIntegerUpdated;
 
         private Dictionary<T, ResourceInteger<T>> _resourcesInteger;
         private Dictionary<T, ResourceBigInteger<T>> _resourcesBigInteger;
@@ -45,17 +45,17 @@ namespace PS.ResourcesFeature.Controller
         {
             foreach (var resource in _resourcesInteger)
             {
-                resource.Value.Updated += delegate(int oldAmount, int newAmount)
+                resource.Value.Updated += delegate(int oldAmount, int newAmount, object sender)
                 {
-                    ResourceIntegerUpdated?.Invoke(resource.Key, oldAmount, newAmount);
+                    ResourceIntegerUpdated?.Invoke(resource.Key, oldAmount, newAmount, sender);
                 };
             }
 
             foreach (var resource in _resourcesBigInteger)
             {
-                resource.Value.Updated += delegate(BigInteger oldAmount, BigInteger newAmount)
+                resource.Value.Updated += delegate(BigInteger oldAmount, BigInteger newAmount, object sender)
                 {
-                    ResourceBigIntegerUpdated?.Invoke(resource.Key, oldAmount, newAmount);
+                    ResourceBigIntegerUpdated?.Invoke(resource.Key, oldAmount, newAmount, sender);
                 };
             }
         }
@@ -107,14 +107,15 @@ namespace PS.ResourcesFeature.Controller
         /// </summary>
         /// <param name="resourceType">Type of resource from your enum.</param>
         /// <param name="amount">Amount to add. Amount must not be negative.</param>
+        /// <param name="sender">An object that adds an amount to a resource.</param>
         /// <exception cref="ArgumentException">Thrown when there is no resource type in resources.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when amount is negative.</exception>
-        /// <seealso cref="AddAmount(T,BigInteger)"/>
-        public void AddAmount(T resourceType, int amount)
+        /// <seealso cref="AddAmount(T,BigInteger,object)"/>
+        public void AddAmount(T resourceType, int amount, object sender)
         {
             ValidateIntegerResource(resourceType);
 
-            _resourcesInteger[resourceType].Add(amount);
+            _resourcesInteger[resourceType].Add(amount, sender);
         }
 
         /// <summary>
@@ -122,14 +123,15 @@ namespace PS.ResourcesFeature.Controller
         /// </summary>
         /// <param name="resourceType">Type of resource from your enum.</param>
         /// <param name="amount">Amount to add. Amount must not be negative.</param>
+        /// <param name="sender">An object that adds an amount to a resource.</param>
         /// <exception cref="ArgumentException">Thrown when there is no resource type in resources.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when amount is negative.</exception>
-        /// <seealso cref="AddAmount(T,int)"/>
-        public void AddAmount(T resourceType, BigInteger amount)
+        /// <seealso cref="AddAmount(T,int,object)"/>
+        public void AddAmount(T resourceType, BigInteger amount, object sender)
         {
             ValidateBigIntegerResource(resourceType);
 
-            _resourcesBigInteger[resourceType].Add(amount);
+            _resourcesBigInteger[resourceType].Add(amount, sender);
         }
 
         #endregion
@@ -141,14 +143,15 @@ namespace PS.ResourcesFeature.Controller
         /// </summary>
         /// <param name="resourceType">Type of resource from your enum.</param>
         /// <param name="amount">Amount to spend. Must not be negative.</param>
+        /// <param name="sender">An object that spends an amount of a resource.</param>
         /// <exception cref="ArgumentException">Thrown when there is no resource type in resources.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when amount is negative.</exception>
-        /// <seealso cref="SpendAmount(T,BigInteger)"/>
-        public void SpendAmount(T resourceType, int amount)
+        /// <seealso cref="SpendAmount(T,BigInteger,object)"/>
+        public void SpendAmount(T resourceType, int amount, object sender)
         {
             ValidateIntegerResource(resourceType);
 
-            _resourcesInteger[resourceType].Spend(amount);
+            _resourcesInteger[resourceType].Spend(amount, sender);
         }
 
         /// <summary>
@@ -156,14 +159,15 @@ namespace PS.ResourcesFeature.Controller
         /// </summary>
         /// <param name="resourceType">Type of resource from your enum.</param>
         /// <param name="amount">Amount to spend. Must not be negative.</param>
+        /// <param name="sender">An object that spends an amount of a resource.</param>
         /// <exception cref="ArgumentException">Thrown when there is no resource type in resources.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when amount is negative.</exception>
-        /// <seealso cref="SpendAmount(T,int)"/>
-        public void SpendAmount(T resourceType, BigInteger amount)
+        /// <seealso cref="SpendAmount(T,int,object)"/>
+        public void SpendAmount(T resourceType, BigInteger amount, object sender)
         {
             ValidateBigIntegerResource(resourceType);
 
-            _resourcesBigInteger[resourceType].Spend(amount);
+            _resourcesBigInteger[resourceType].Spend(amount, sender);
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace PS.ResourcesFeature.Resources
 
         /// <inheritdoc/>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when amount is negative.</exception>
-        public override void Add(BigInteger amount)
+        public override void Add(BigInteger amount, object sender)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException(nameof(amount),"The add amount must not be negative");
@@ -24,12 +24,12 @@ namespace PS.ResourcesFeature.Resources
         
             _amount += amount;
         
-            OnChanged(oldAmount, _amount);
+            OnChanged(oldAmount, _amount, sender);
         }
 
         /// <inheritdoc/>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when amount is negative.</exception>
-        public override void Spend(BigInteger amount)
+        public override void Spend(BigInteger amount, object sender)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException(nameof(amount),"The spend amount must not be negative");
@@ -41,7 +41,7 @@ namespace PS.ResourcesFeature.Resources
             if (_amount < 0)
                 _amount = new BigInteger(0);
         
-            OnChanged(oldAmount, _amount);
+            OnChanged(oldAmount, _amount, sender);
         }
 
         /// <inheritdoc/>

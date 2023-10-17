@@ -13,7 +13,7 @@ namespace PS.ResourcesFeature.Resources
         /// <summary>
         /// Event invokes when the amount updated.
         /// </summary>
-        public event Action<T, T> Updated; 
+        public event Action<T, T, object> Updated; 
 
         /// <summary>
         /// Resource type.
@@ -29,22 +29,24 @@ namespace PS.ResourcesFeature.Resources
             _amount = defaultAmount;
         }
 
-        protected void OnChanged(T oldAmount, T newAmount)
+        protected void OnChanged(T oldAmount, T newAmount, object sender)
         {
-            Updated?.Invoke(oldAmount, newAmount);
+            Updated?.Invoke(oldAmount, newAmount, sender);
         }
 
         /// <summary>
         /// Adds amount.
         /// </summary>
         /// <param name="amount">Amount to add.</param>
-        public abstract void Add(T amount);
+        /// <param name="sender">An object that adds an amount to a resource.</param>
+        public abstract void Add(T amount, object sender);
         
         /// <summary>
         /// Spends amount.
         /// </summary>
-        /// <param name="amount">Amount to spend.</param>
-        public abstract void Spend(T amount);
+        /// <param name="amount">Amount to spend.</param>>
+        /// <param name="sender">An object that spends an amount of a resource.</param>
+        public abstract void Spend(T amount, object sender);
         
         /// <summary>
         /// Getter for resource amount.
