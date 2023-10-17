@@ -1,7 +1,8 @@
 # Unity Resources (Currencies) feature
 
 ## Description
-Ready-to-use solution for work with resources. Supports integer and BigInteger resources.
+Ready-to-use solution for work with resources. 
+Supports integer and BigInteger resources.
 
 ## Features
 - Use your enum for resources
@@ -9,8 +10,101 @@ Ready-to-use solution for work with resources. Supports integer and BigInteger r
 - Subscribe to resource update event
 - Get amount of resource
 
-## Short how to use
-1. Create enum for resources types
-2. Create object ResourcesController
-3. Initialize resources in controller
-4. Enjoy!
+## Tutorial
+1. Download latest unity package from packages
+
+2. Create some enum for your resources
+```C#
+public enum ResourceType
+{
+    Wood,
+    Stone,
+    Scroll
+}
+```
+
+3. Create object ResourcesController
+```C#
+_resourcesController = new ResourcesController<ResourceType>();
+```
+
+4. Initialize resources
+```C#
+//Create dummy resources; You can load resources data and use it
+
+//Integer resources
+ResourceInteger<ResourceType>[] integerResources = {
+    new ResourceInteger<ResourceType>(ResourceType.Wood, 100),
+    new ResourceInteger<ResourceType>(ResourceType.Stone, 100),
+    new ResourceInteger<ResourceType>(ResourceType.Scroll, 100)
+};
+
+//BigInteger resources
+ResourceBigInteger<ResourceType>[] bigIntegerResources = {
+    new ResourceBigInteger<ResourceType>(ResourceType.Wood, 100),
+    new ResourceBigInteger<ResourceType>(ResourceType.Stone, 100),
+    new ResourceBigInteger<ResourceType>(ResourceType.Scroll, 100)
+};
+
+//Initialize integer resources
+_resourcesController.InitializeResources(integerResources);
+
+//Initialize big integer resources
+_resourcesController.InitializeResources(bigIntegerResources);
+```
+
+5. Subscribe to resource update event
+```C#
+//Subscribe
+private void OnEnable()
+{
+    _resourcesController.ResourceIntegerUpdated += OnResourceIntegerUpdated;
+    _resourcesController.ResourceBigIntegerUpdated += OnResourceBigIntegerUpdated;
+}
+
+//Unsubscribe
+private void OnDisable()
+{
+    _resourcesController.ResourceIntegerUpdated -= OnResourceIntegerUpdated;
+    _resourcesController.ResourceBigIntegerUpdated -= OnResourceBigIntegerUpdated;
+}
+
+//Integer resource example
+private void OnResourceIntegerUpdated(ResourceType resourceType, int oldAmount, int newAmount)
+{
+    Debug.Log($"Integer resource {resourceType} changed; Old amount = {oldAmount}, new amount = {newAmount}");
+}
+
+//BigInteger resource example
+private void OnResourceBigIntegerUpdated(ResourceType resourceType, BigInteger oldAmount, BigInteger newAmount)
+{
+    Debug.Log($"BigInteger resource {resourceType} changed; Old amount = {oldAmount}, new amount = {newAmount}");
+}
+```
+
+6. Add resource
+```C#
+//Add amount to integer resource
+_resourcesController.AddAmount(ResourceType.Stone, 100);
+
+//Add amount to integer resource
+_resourcesController.AddAmount(ResourceType.Stone, new BigInteger(100));
+```
+
+7. Spend resource
+```C#
+//Spend integer resource
+_resourcesController.SpendAmount(ResourceType.Stone, 100);
+
+//Spend integer resource
+_resourcesController.SpendAmount(ResourceType.Stone, new BigInteger(100));
+```
+
+8. Get resource amount
+```C#
+//Get integer resource amount
+int integerResourceAmount = _resourcesController.GetIntegerAmount(ResourceType.Stone);
+
+//Get BigInteger resource amount
+BigInteger bigIntegerResourceAmount = _resourcesController.GetBigIntegerAmount(ResourceType.Stone);
+```
