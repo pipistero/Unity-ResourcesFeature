@@ -87,7 +87,7 @@ private void OnResourceBigIntegerUpdated(ResourceType resourceType, BigInteger o
 //Add amount to integer resource
 _resourcesController.AddAmount(ResourceType.Stone, 100, this);
 
-//Add amount to integer resource
+//Add amount to BigInteger resource
 _resourcesController.AddAmount(ResourceType.Stone, new BigInteger(100), this);
 ```
 
@@ -96,7 +96,7 @@ _resourcesController.AddAmount(ResourceType.Stone, new BigInteger(100), this);
 //Spend integer resource
 _resourcesController.SpendAmount(ResourceType.Stone, 100, this);
 
-//Spend integer resource
+//Spend BigInteger resource
 _resourcesController.SpendAmount(ResourceType.Stone, new BigInteger(100), this);
 ```
 
