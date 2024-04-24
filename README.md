@@ -1,7 +1,8 @@
 # Unity Resources (Currencies) feature
 
 ## Important
-By now I'm working on Zenject integration for this project. This will be added soon :) 
+By now I'm working on Zenject integration for this project. This will be added soon :)
+Tests will also be implemented soon
 
 ## Description
 Ready-to-use solution for work with resources. 
